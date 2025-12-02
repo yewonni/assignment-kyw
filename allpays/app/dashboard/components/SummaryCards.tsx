@@ -7,7 +7,7 @@ const summaryCards = [
 
 export default function SummaryCards() {
   return (
-    <div className="flex gap-6 flex-[0_0_130px]">
+    <div className="flex gap-6">
       {summaryCards.map((card, idx) => (
         <article
           key={idx}
@@ -18,8 +18,12 @@ export default function SummaryCards() {
             }, #FFFFFF)`,
           }}
         >
-          <p className="text-secondary text-sm font-medium">{card.title}</p>
-          <p className="text-primary text-lg font-bold">{card.value}</p>
+          <p className="text-secondary font-medium text-xs sm:text-sm">
+            {card.title}
+          </p>
+          <p className="text-primary font-bold text-xs sm:text-sm md:text-base">
+            {card.value}
+          </p>
         </article>
       ))}
     </div>
