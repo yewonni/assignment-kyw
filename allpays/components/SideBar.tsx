@@ -5,7 +5,7 @@ import { useRouter, usePathname } from "next/navigation";
 const navItems = [
   { label: "대시보드", href: "/dashboard", src: "/dashboard.svg" },
   { label: "거래 내역", href: "/transactions", src: "/transactions.svg" },
-  { label: "가맹점 목록", href: "/stores", src: "/stores.svg" },
+  { label: "가맹점 목록", href: "/merchants", src: "/merchants.svg" },
 ];
 
 export default function SideBar() {
