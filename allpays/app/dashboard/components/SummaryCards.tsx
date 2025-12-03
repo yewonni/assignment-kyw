@@ -1,11 +1,52 @@
-const summaryCards = [
-  { title: "오늘 총 거래 금액", value: "₩ 12,500,000" },
-  { title: "오늘 거래 건수", value: "1,201건" },
-  { title: "결제 성공률", value: "96.2%" },
-  { title: "환불 금액", value: "₩ 120,000" },
-];
+"use client";
+
+import { useEffect, useState } from "react";
+import { getTransactions } from "@/api/transactions/transactions";
+import { calcSummary } from "@/utils/calcSummary";
 
 export default function SummaryCards() {
+  const [summary, setSummary] = useState({
+    totalAmount: 0,
+    totalCount: 0,
+    successRate: 0,
+    cancelAmount: 0,
+  });
+
+  useEffect(() => {
+    const fetchSummary = async () => {
+      try {
+        const { data } = await getTransactions();
+        const transactions = data.data;
+
+        const result = calcSummary(transactions);
+        setSummary(result);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchSummary();
+  }, []);
+
+  const summaryCards = [
+    {
+      title: "총 거래 금액",
+      value: `₩ ${summary.totalAmount.toLocaleString()}`,
+    },
+    {
+      title: "거래 건수",
+      value: `${summary.totalCount.toLocaleString()}건`,
+    },
+    {
+      title: "결제 성공률",
+      value: `${summary.successRate.toFixed(1)}%`,
+    },
+    {
+      title: "취소 금액",
+      value: `₩ ${summary.cancelAmount.toLocaleString()}`,
+    },
+  ];
+
   return (
     <div className="flex gap-6">
       {summaryCards.map((card, idx) => (
