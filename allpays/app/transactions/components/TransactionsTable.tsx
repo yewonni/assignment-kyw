@@ -1,4 +1,4 @@
-import { Transaction } from "../page";
+import { Transaction } from "@/hooks/useTransactions";
 
 interface TransactionsTableProps {
   transactions: Transaction[];
@@ -18,7 +18,7 @@ export default function TransactionsTable({
   const tdClass = "p-2 px-4 align-middle";
 
   const columns = [
-    { label: "ID", key: "id", className: thClass },
+    { label: "코드", key: "code", className: thClass },
     { label: "가맹점명", key: "merchant", className: thClass },
     { label: "금액", key: "amount", className: thClass, align: "center" },
     { label: "상태", key: "status", className: thClass, align: "center" },
@@ -52,12 +52,14 @@ export default function TransactionsTable({
         <tbody>
           {transactions.map((tx) => (
             <tr
-              key={tx.id}
+              key={tx.code}
               className="border-b border-gray-200 hover:bg-slate-100"
             >
-              <td className={tdClass}>{tx.id}</td>
+              <td className={tdClass}>{tx.code}</td>
               <td className={tdClass}>{tx.merchant}</td>
-              <td className={tdClass}>{tx.amount.toLocaleString()}원</td>
+              <td className={tdClass}>
+                {Number(tx.amount).toLocaleString()}원
+              </td>
               <td className={tdClass}>
                 <span
                   className={`text-xs ${
@@ -67,7 +69,6 @@ export default function TransactionsTable({
                   {tx.status}
                 </span>
               </td>
-
               <td className={tdClass}>{tx.paymentMethod}</td>
               <td className={`${tdClass} text-gray-600`}>{tx.datetime}</td>
             </tr>
