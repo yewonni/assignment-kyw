@@ -1,11 +1,29 @@
 interface SearchFiltersProps {
+  keyword: string;
+  filterStatus: string;
+  filterStore: string;
+  sortOrder: string;
+
+  setKeyword: (value: string) => void;
+  setFilterStatus: (value: string) => void;
+  setFilterStore: (value: string) => void;
+  setSortOrder: (value: string) => void;
+
+  stores: { mchtCode: string; mchtName: string }[];
   onSearch: () => void;
   onReset: () => void;
 }
 
 export default function SearchFilters({
-  onSearch,
-  onReset,
+  keyword,
+  filterStatus,
+  filterStore,
+  sortOrder,
+  setKeyword,
+  setFilterStatus,
+  setFilterStore,
+  setSortOrder,
+  stores,
 }: SearchFiltersProps) {
   const cellClass =
     "bg-gray-100 border-b border-gray-300 border-r p-4 flex items-center";
@@ -30,39 +48,51 @@ export default function SearchFilters({
             type="text"
             placeholder="검색어를 입력하세요"
             className={inputClass}
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
           />
         </div>
 
         {/* 필터 */}
         <div className={cellClass}>필터</div>
-        <div className={`${contentClass} gap-4 flex flex-wrap p-4`}>
-          <select className={selectClass}>
-            <option>상태</option>
-            <option>성공</option>
-            <option>실패</option>
-            <option>대기</option>
-            <option>취소</option>
+        <div className={`${contentClass} gap-4 flex flex-wrap`}>
+          <select
+            className={selectClass}
+            value={filterStatus}
+            onChange={(e) => setFilterStatus(e.target.value)}
+          >
+            <option value="">상태</option>
+            <option value="성공">성공</option>
+            <option value="실패">실패</option>
+            <option value="대기">대기</option>
+            <option value="취소">취소</option>
           </select>
-          <select className={selectClass}>
-            <option>가맹점</option>
-            <option>GS25</option>
-            <option>스타벅스</option>
-          </select>
-          <select className={selectClass}>
-            <option>기간</option>
-            <option>오늘</option>
-            <option>이번주</option>
-            <option>이번달</option>
+
+          <select
+            className={selectClass}
+            value={filterStore}
+            onChange={(e) => setFilterStore(e.target.value)}
+          >
+            <option value="">가맹점</option>
+            {stores.map((s) => (
+              <option key={s.mchtCode} value={s.mchtName}>
+                {s.mchtName}
+              </option>
+            ))}
           </select>
         </div>
 
         {/* 정렬 */}
         <div className={cellClass}>정렬</div>
         <div className={contentClass}>
-          <select className={selectClass}>
-            <option>최신순</option>
-            <option>금액 높은순</option>
-            <option>금액 낮은순</option>
+          <select
+            className={selectClass}
+            value={sortOrder}
+            onChange={(e) => setSortOrder(e.target.value)}
+          >
+            <option value="최신순">최신순</option>
+            <option value="금액 높은순">금액 높은순</option>
+            <option value="금액 낮은순">금액 낮은순</option>
           </select>
         </div>
       </div>
