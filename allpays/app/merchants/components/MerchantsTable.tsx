@@ -1,15 +1,14 @@
-interface Merchant {
-  mchtCode: string;
-  mchtName: string;
-  status: "대기" | "활성" | "중지" | "폐기";
-  bizType: string;
-}
+import { Merchant } from "../page";
 
 interface MerchantsTableProps {
   merchants: Merchant[];
+  onRowClick: (mchtCode: string) => void;
 }
 
-export default function MerchantsTable({ merchants }: MerchantsTableProps) {
+export default function MerchantsTable({
+  merchants,
+  onRowClick,
+}: MerchantsTableProps) {
   const statusColorMap: Record<string, string> = {
     대기: "text-gray-700",
     활성: "text-green-700",
@@ -28,12 +27,12 @@ export default function MerchantsTable({ merchants }: MerchantsTableProps) {
             <th className="p-2 px-4 text-left font-medium">업종</th>
           </tr>
         </thead>
-
         <tbody>
           {merchants.map((m) => (
             <tr
               key={m.mchtCode}
-              className="border-b border-gray-200 hover:bg-slate-100"
+              className="border-b border-gray-200 hover:bg-slate-100 cursor-pointer"
+              onClick={() => onRowClick(m.mchtCode)}
             >
               <td className="p-2 px-4">{m.mchtCode}</td>
               <td className="p-2 px-4">{m.mchtName}</td>
